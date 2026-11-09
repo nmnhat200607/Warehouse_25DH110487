@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Warehouse_25DH110487.Models.Product>
+
+@{
+    ViewBag.Title = "Chỉnh sửa sản phẩm";
+}
+
+<h2>CHỌN SẢN PHẨM CẦN CHỈNH SỬA</h2>
+<hr />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Thành công!</strong> @TempData["SuccessMessage"]
+    </div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr style="background-color: #e2e8f0;">
+            <th>Mã SP (ID)</th>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Đơn giá (VNĐ)</th>
+            <th>Số lượng tồn (Không đổi khi sửa)</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductID</td>
+                <td>@item.ProductName</td>
+                <td>@item.Category</td>
+                <td>@String.Format("{0:N0}", item.Price)</td>
+                <td>@item.Quantity</td>
+                <td>
+                    @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-warning btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

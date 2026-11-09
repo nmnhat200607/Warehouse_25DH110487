@@ -1,0 +1,51 @@
+﻿@model Warehouse_25DH110487.Models.Product
+
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin sản phẩm";
+}
+
+<h2>CHỈNH SỬA THÔNG TIN SẢN PHẨM</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ProductID)
+
+    <div class="form-horizontal" style="max-width: 600px; background: #f8fafc; padding: 20px; border: 1px solid #cbd5e1; border-radius: 6px;">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="control-label">Mã sản phẩm (ID)</label>
+            <input type="text" class="form-control" value="@Model.ProductID" readonly style="background-color: #e2e8f0;" />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="control-label">Tên sản phẩm <span style="color:red">*</span></label>
+            @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="control-label">Danh mục <span style="color:red">*</span></label>
+            @Html.TextBoxFor(model => model.Category, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="control-label">Đơn giá (VNĐ) <span style="color:red">*</span></label>
+            @Html.TextBoxFor(model => model.Price, new { @class = "form-control", type = "number", step = "any" })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label class="control-label">Số lượng tồn kho hiện tại (Chỉ xem, không được phép sửa)</label>
+            <input type="text" class="form-control" value="@Model.Quantity" readonly style="background-color: #e2e8f0; font-weight: bold;" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+            @Html.ActionLink("Quay lại", "EditList", null, new { @class = "btn btn-default", style = "margin-left: 10px;" })
+        </div>
+    </div>
+}

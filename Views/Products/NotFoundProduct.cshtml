@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Không tìm thấy sản phẩm";
+}
+
+<h2>THÔNG BÁO LỖI</h2>
+<hr />
+
+<div class="alert alert-danger" style="max-width: 600px;">
+    <strong>Không hợp lệ!</strong> @ViewBag.ErrorMessage
+</div>
+
+<div>
+    @Html.ActionLink("← Quay lại danh sách chỉnh sửa", "EditList", null, new { @class = "btn btn-primary" })
+</div>

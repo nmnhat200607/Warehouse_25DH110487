@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Nhập / Xuất kho";
+}
+
+<h2>QUẢN LÝ NHẬP / XUẤT KHO</h2>
+<hr />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Thành công!</strong> @TempData["SuccessMessage"]
+    </div>
+}
+
+<div style="display: flex; gap: 25px; flex-wrap: wrap;">
+    <!-- KHUNG 1: NHẬP KHO (CÂU 4a) -->
+    <div style="flex: 1; min-width: 320px; background: #f8fafc; padding: 20px; border: 1px solid #cbd5e1; border-radius: 6px;">
+        <h3 style="margin-top: 0; color: #16a34a; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px;">
+            1. Nhập kho (Bổ sung hàng)
+        </h3>
+
+        @using (Html.BeginForm("Import", "Products", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: bold;">Chọn sản phẩm cần nhập <span style="color:red">*</span></label>
+                @Html.DropDownList("productId", (SelectList)ViewBag.ProductID, "-- Chọn sản phẩm --", new { @class = "form-control" })
+                @Html.ValidationMessage("ImportProductID", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="font-weight: bold;">Số lượng nhập bổ sung <span style="color:red">*</span></label>
+                <input type="number" name="importQuantity" class="form-control" placeholder="Nhập số nguyên dương (> 0)..." />
+                @Html.ValidationMessage("ImportQuantity", "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-success">Xác nhận nhập kho</button>
+        }
+    </div>
+
+    <!-- KHUNG 2: XUẤT KHO (CÂU 4b) -->
+    <div style="flex: 1; min-width: 320px; background: #f8fafc; padding: 20px; border: 1px solid #cbd5e1; border-radius: 6px;">
+        <h3 style="margin-top: 0; color: #dc2626; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px;">
+            2. Xuất kho (Bán / Xuất hàng)
+        </h3>
+
+        @using (Html.BeginForm("Export", "Products", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: bold;">Chọn sản phẩm cần xuất <span style="color:red">*</span></label>
+                @Html.DropDownList("productId", (SelectList)ViewBag.ProductID, "-- Chọn sản phẩm --", new { @class = "form-control" })
+                @Html.ValidationMessage("ExportProductID", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="font-weight: bold;">Số lượng xuất kho <span style="color:red">*</span></label>
+                <input type="number" name="exportQuantity" class="form-control" placeholder="Nhập số lượng xuất (<= tồn kho)..." />
+                @Html.ValidationMessage("ExportQuantity", "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-danger">Xác nhận xuất kho</button>
+        }
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+    @Html.ActionLink("← Quay lại xem danh sách & trạng thái tồn kho", "Index", null, new { @class = "btn btn-default" })
+</div>

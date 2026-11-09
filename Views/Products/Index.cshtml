@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Warehouse_25DH110487.Models.Product>
+
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+}
+
+<h2>DANH SÁCH SẢN PHẨM TRONG KHO</h2>
+<hr />
+
+<!-- FORM TÌM KIẾM VÀ LỌC SẢN PHẨM (CÂU 3) -->
+@using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @class = "form-inline", style = "margin-bottom: 20px; background: #f8fafc; padding: 15px; border: 1px solid #e2e8f0; border-radius: 6px;" }))
+{
+    <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px;">Tên sản phẩm:</label>
+            <input type="text" name="searchName" value="@ViewBag.CurrentSearch" class="form-control" placeholder="Nhập tên sản phẩm..." style="width: 250px;" />
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px;">Danh mục:</label>
+            @Html.DropDownList("categoryFilter", (SelectList)ViewBag.Categories, "-- Tất cả danh mục --", new { @class = "form-control", style = "width: 220px;" })
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Tìm kiếm / Lọc</button>
+            @Html.ActionLink("Đặt lại", "Index", null, new { @class = "btn btn-default", style = "margin-left: 5px;" })
+        </div>
+    </div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr style="background-color: #e2e8f0;">
+            <th>Mã SP (ID)</th>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Đơn giá (VNĐ)</th>
+            <th>Số lượng tồn</th>
+            <th>Trạng thái tồn kho</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; color: #64748b; padding: 20px;">
+                    Không tìm thấy sản phẩm nào phù hợp với điều kiện tìm kiếm.
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                string trangThai = "";
+                string badgeColor = "";
+
+                if (item.Quantity == 0)
+                {
+                    trangThai = "Hết hàng";
+                    badgeColor = "color: #dc2626; font-weight: bold;";
+                }
+                else if (item.Quantity >= 1 && item.Quantity <= 4)
+                {
+                    trangThai = "Sắp hết hàng";
+                    badgeColor = "color: #d97706; font-weight: bold;";
+                }
+                else
+                {
+                    trangThai = "Còn hàng";
+                    badgeColor = "color: #16a34a; font-weight: bold;";
+                }
+
+                <tr>
+                    <td>@item.ProductID</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Category</td>
+                    <td>@String.Format("{0:N0}", item.Price)</td>
+                    <td>@item.Quantity</td>
+                    <td style="@badgeColor">@trangThai</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

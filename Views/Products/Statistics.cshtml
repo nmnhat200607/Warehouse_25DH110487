@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Warehouse_25DH110487.Models.Product>
+
+@{
+    ViewBag.Title = "Thống kê tồn kho";
+}
+
+<h2>THỐNG KÊ TỒN KHO HÀNG HÓA</h2>
+<hr />
+
+<!-- 3 THẺ THỐNG KÊ CHÍNH (CÂU 7) -->
+<div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+    <!-- Thẻ 1: Tổng số sản phẩm -->
+    <div style="flex: 1; min-width: 220px; background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #2563eb; padding: 20px; border-radius: 6px;">
+        <div style="font-size: 14px; color: #1e40af; font-weight: bold; text-transform: uppercase;">
+            Tổng số sản phẩm
+        </div>
+        <div style="font-size: 32px; font-weight: bold; color: #1e3a8a; margin-top: 8px;">
+            @ViewBag.TotalProducts <span style="font-size: 16px; font-weight: normal;">mặt hàng</span>
+        </div>
+    </div>
+
+    <!-- Thẻ 2: Số sản phẩm hết hàng -->
+    <div style="flex: 1; min-width: 220px; background-color: #fef2f2; border: 1px solid #fecaca; border-left: 5px solid #dc2626; padding: 20px; border-radius: 6px;">
+        <div style="font-size: 14px; color: #991b1b; font-weight: bold; text-transform: uppercase;">
+            Số sản phẩm hết hàng (Tồn = 0)
+        </div>
+        <div style="font-size: 32px; font-weight: bold; color: #dc2626; margin-top: 8px;">
+            @ViewBag.OutOfStockProducts <span style="font-size: 16px; font-weight: normal;">sản phẩm</span>
+        </div>
+    </div>
+
+    <!-- Thẻ 3: Tổng giá trị tồn kho -->
+    <div style="flex: 1; min-width: 260px; background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 5px solid #16a34a; padding: 20px; border-radius: 6px;">
+        <div style="font-size: 14px; color: #166534; font-weight: bold; text-transform: uppercase;">
+            Tổng giá trị tồn kho
+        </div>
+        <div style="font-size: 28px; font-weight: bold; color: #15803d; margin-top: 10px;">
+            @String.Format("{0:N0}", ViewBag.TotalInventoryValue) <span style="font-size: 16px; font-weight: normal;">VNĐ</span>
+        </div>
+    </div>
+</div>
+
+<!-- BẢNG CHI TIẾT ĐỐI CHIẾU GIÁ TRỊ TỪNG SẢN PHẨM -->
+<h4>Chi tiết giá trị tồn kho theo từng sản phẩm</h4>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr style="background-color: #e2e8f0;">
+            <th>Mã SP (ID)</th>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Đơn giá (VNĐ)</th>
+            <th>Số lượng tồn</th>
+            <th>Thành tiền tồn kho (Price × Quantity)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            decimal thanhTien = item.Price * item.Quantity;
+            <tr style="@(item.Quantity == 0 ? "background-color: #fee2e2;" : "")">
+                <td>@item.ProductID</td>
+                <td>@item.ProductName</td>
+                <td>@item.Category</td>
+                <td>@String.Format("{0:N0}", item.Price)</td>
+                <td>
+                    @item.Quantity
+                    @if (item.Quantity == 0)
+                    {
+                        <span style="color: #dc2626; font-weight: bold;"> (Hết hàng)</span>
+                    }
+                </td>
+                <td style="font-weight: bold;">@String.Format("{0:N0}", thanhTien) VNĐ</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr style="background-color: #f1f5f9; font-weight: bold; font-size: 16px;">
+            <td colspan="5" style="text-align: right;">TỔNG CỘNG GIÁ TRỊ TỒN KHO:</td>
+            <td style="color: #15803d;">@String.Format("{0:N0}", ViewBag.TotalInventoryValue) VNĐ</td>
+        </tr>
+    </tfoot>
+</table>

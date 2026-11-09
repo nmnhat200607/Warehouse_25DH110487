@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Quản Lý Kho Hàng</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-bar {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex: 1;
+        }
+
+        .left-menu {
+            width: 250px;
+            background-color: #f1f5f9;
+            border-right: 1px solid #cbd5e1;
+            padding: 20px 15px;
+        }
+
+            .left-menu h4 {
+                margin-top: 0;
+                color: #0f172a;
+                border-bottom: 2px solid #cbd5e1;
+                padding-bottom: 10px;
+            }
+
+            .left-menu ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+                .left-menu ul li {
+                    margin-bottom: 10px;
+                }
+
+                    .left-menu ul li a {
+                        display: block;
+                        padding: 10px 12px;
+                        background-color: #ffffff;
+                        color: #1e293b;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        border: 1px solid #e2e8f0;
+                        font-weight: 500;
+                    }
+
+                        .left-menu ul li a:hover {
+                            background-color: #2563eb;
+                            color: white;
+                        }
+
+        .content-area {
+            flex: 1;
+            padding: 25px;
+            background-color: #ffffff;
+        }
+
+        .footer-bar {
+            background-color: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER: Tên Sinh viên và MSSV -->
+    <header class="header-bar">
+        Sinh viên thực hiện: Nguyễn Minh Nhật - MSSV: 25DH110487
+    </header>
+
+    <div class="main-wrapper">
+        <!-- CỘT MENU BÊN TRÁI (Liên kết Câu 2 -> Câu 7) -->
+        <aside class="left-menu">
+            <h4>CHỨC NĂNG KHO</h4>
+            <ul>
+                <li>@Html.ActionLink("Danh sách sản phẩm (Câu 1 & 2a)", "Index", "Products")</li>
+                <li>@Html.ActionLink("Thêm sản phẩm mới (Câu 2b)", "Create", "Products")</li>
+                <li>@Html.ActionLink("Tìm kiếm & Lọc SP (Câu 3)", "Search", "Products")</li>
+                <li>@Html.ActionLink("Nhập / Xuất kho (Câu 4)", "ImportExport", "Products")</li>
+                <li>@Html.ActionLink("Xuất nhiều sản phẩm (Câu 5)", "MultiExport", "Products")</li>
+                <li>@Html.ActionLink("Chỉnh sửa sản phẩm (Câu 6)", "EditList", "Products")</li>
+                <li>@Html.ActionLink("Thống kê tồn kho (Câu 7)", "Statistics", "Products")</li>
+            </ul>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH -->
+        <main class="content-area">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- FOOTER: Ngày tháng năm sinh -->
+    <footer class="footer-bar">
+        Ngày tháng năm sinh: 20/06/2007
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

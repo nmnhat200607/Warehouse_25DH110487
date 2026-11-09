@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Xuất nhiều sản phẩm";
+}
+
+<h2>XUẤT NHIỀU SẢN PHẨM CÙNG LÚC (TRANSACTION)</h2>
+<hr />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Thành công!</strong> @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (ViewBag.RejectMessage != null)
+{
+    <div class="alert alert-danger">
+        <strong>Giao dịch bị hủy!</strong> @ViewBag.RejectMessage
+    </div>
+}
+
+<div style="max-width: 750px; background: #f8fafc; padding: 20px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    @using (Html.BeginForm("MultiExport", "Products", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <!-- SẢN PHẨM 1 -->
+            <div style="flex: 1; min-width: 280px; background: #ffffff; padding: 15px; border: 1px solid #e2e8f0; border-radius: 5px;">
+                <h4 style="margin-top: 0; color: #1e3a8a;">Sản phẩm thứ 1</h4>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: bold;">Chọn sản phẩm 1 <span style="color:red">*</span></label>
+                    @Html.DropDownList("productId1", (SelectList)ViewBag.Product1List, "-- Chọn sản phẩm 1 --", new { @class = "form-control" })
+                    @Html.ValidationMessage("Product1Error", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Số lượng xuất 1 <span style="color:red">*</span></label>
+                    <input type="number" name="qty1" class="form-control" placeholder="Nhập số nguyên dương..." />
+                    @Html.ValidationMessage("Qty1Error", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- SẢN PHẨM 2 -->
+            <div style="flex: 1; min-width: 280px; background: #ffffff; padding: 15px; border: 1px solid #e2e8f0; border-radius: 5px;">
+                <h4 style="margin-top: 0; color: #1e3a8a;">Sản phẩm thứ 2</h4>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: bold;">Chọn sản phẩm 2 <span style="color:red">*</span></label>
+                    @Html.DropDownList("productId2", (SelectList)ViewBag.Product2List, "-- Chọn sản phẩm 2 --", new { @class = "form-control" })
+                    @Html.ValidationMessage("Product2Error", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Số lượng xuất 2 <span style="color:red">*</span></label>
+                    <input type="number" name="qty2" class="form-control" placeholder="Nhập số nguyên dương..." />
+                    @Html.ValidationMessage("Qty2Error", "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Xác nhận xuất đồng thời 2 sản phẩm</button>
+            @Html.ActionLink("Xem danh sách tồn kho", "Index", null, new { @class = "btn btn-default", style = "margin-left: 10px;" })
+        </div>
+    }
+</div>
